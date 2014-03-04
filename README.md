@@ -1,10 +1,11 @@
 Intel
 =====
 
-Currently, you can provide one or more input files containing properly, or
-poorly formatted raw text from which you wish to extract Indicators of Compromise.
+Identify, Extract, and Vet Indicators of Compromise from both formatted and unformatted input data.  The idea is to simplify the life of a security analyst/researcher when attempting to gather and share intelligence.  The project will be delivered as a collection of libs which can be used independently (e.g. IPAddresses *class* provides functionality for identifying, extracting, and classifying IP Addresses), and my own small program which leverages them in way that I find useful for day-to-day work.
 
-The output will be printed to the console, or an output file if you choose.
+The project is still under development, so currently only the functionality for *Extracting* Indicators (IP Addresses, MD5 and SHA-256 Hashes, and Domain Names) has been completed.
+
+The output will be printed to the console, and if you choose, an output file.
 
 
 Requirements
