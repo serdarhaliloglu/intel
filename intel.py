@@ -20,14 +20,7 @@ __status__ = "Development"
 def extract_indicators(input_data):
     """Extract Indicators From the Input Data."""
 
-    # Dictionary to house all of the results.
-    results = {
-
-        'md5_hashes': [],
-        'sha256_hashes': [],
-        'ip_addresses': [],
-        'domains': []
-    }
+    results = []  # List to house all of the results.
 
     hashes = ExtractHashes(input_data).get_valid_hashes()
     ips = ExtractIPs(input_data).get_valid_ips()
@@ -35,19 +28,19 @@ def extract_indicators(input_data):
 
     if hashes['md5_hashes']:
 
-        results['md5_hashes'] = hashes['md5_hashes']
+        results.extend(hashes['md5_hashes'])
 
     if hashes['sha256_hashes']:
 
-        results['sha256_hashes'] = hashes['sha256_hashes']
+        results.extend(hashes['sha256_hashes'])
 
     if ips['public_ips']:
 
-        results['ip_addresses'] = ips['public_ips']
+        results.extend(ips['public_ips'])
 
     if domains['domain_list']:
 
-        results['domains'] = domains['domain_list']
+        results.extend(domains['domain_list'])
 
     return results
 
@@ -77,20 +70,12 @@ def main():
         # Extracts indicators we care about and returns a dictionary.
         results = extract_indicators(input_data)
 
-        # Iterate over the dictionary and get the lists that are not empty.
-        results = [value for key, value in results.iteritems() if key]
+        for entry in results:
 
-        # There's gotta be a more pythonic way for iterating a list of lists...
-        for result_list in results:
-            if result_list:
-                for entry in result_list:
-                    print entry
+            print entry  # Print to console regardless of output file.
 
-                    if args.output:
-
-                        entry = entry + "\n"
-
-                        outfile.write(entry)
+            if args.output:
+                outfile.write(entry + "\n")
 
 
 if __name__ == "__main__":
