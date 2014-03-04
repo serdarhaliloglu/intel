@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-"""Return Error Messages."""
+"""Returns Error Messages."""
 
 
 class FilePath(object):
