@@ -34,3 +34,23 @@ optional arguments:
   -e, --extract                                                        extract intel from input data.
   -v, --vet                                                            vet intel from input data.
 ```
+
+----
+
+### Coming Soon
+
+* Ability to provide a URL as an input path
+* Ability to provide PDF file as an input path
+* Identification and extraction of file names
+* Identification and extraction of Registry Paths/Keys
+* Auto-generation of OpenIOC file containing the identified Indicators of Compromise
+* Auto-genearation of CybOX file containing the identified Indicators of Compromise
+* Vetting the extracted Indicators using several methods, including:
+ * VirusTotal
+ * NIST NSRL
+ * IPVoid
+ * ThreatExpert
+ * VX Vault
+ * urlQuery
+ * URLVoid
+ * etc.
