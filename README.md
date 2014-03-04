@@ -54,3 +54,8 @@ optional arguments:
  * urlQuery
  * URLVoid
  * etc.
+
+----
+
+### Examples
+
