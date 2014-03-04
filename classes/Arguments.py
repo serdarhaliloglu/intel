@@ -97,7 +97,7 @@ class GetArguments(object):
         parser = argparse.ArgumentParser(
             prog="intel.py",
             description="Used for Extracting and Vetting Intel.",
-            epilog="---\n3 LINE",
+            epilog="Thanks for using this program!\n\n---\n3LINE",
             formatter_class=lambda prog: argparse.RawTextHelpFormatter(
                 prog, max_help_position=100)
         )
