@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-"""Extract MD5 and SHA-256 Hashes From Input Data."""
+"""Work With File Hashes"""
 
 
 import re  # Use Regular Expressions.
