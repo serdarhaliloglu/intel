@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-"""Do Stuff With the Input Data."""
+"""Format the Input Data."""
 
 import re  # For Regular Expressions.
 
