@@ -1,17 +1,26 @@
 Intel
 =====
 
-Identify, Extract, and Vet Indicators of Compromise from both formatted and unformatted input data.  The idea is to simplify the life of a security analyst/researcher when attempting to gather and share intelligence.  The project will be delivered as a collection of libs which can be used independently (e.g. IPAddresses *class* provides functionality for identifying, extracting, and classifying IP Addresses), and my own small program which leverages them in way that I find useful for day-to-day work.
+Extract and Vet Indicators of Compromise from both formatted and unformatted input data.
 
-The project is still under development, so currently only the functionality for *Extracting* Indicators (IP Addresses, MD5 and SHA-256 Hashes, and Domain Names) has been completed.
+This project is still under development, so currently only the functionality for *Extracting* has been completed. The following indicators can be extracted at this time:
 
-The output will be printed to the console, and if you choose, an output file.
+* MD5 Hashes
+* SHA-256 Hashes
+* IP Addresses
+* Domain Names
 
+-----
 
-Requirements
-============
+### Requirements
 
-* Python 2.7 - this program only been tested on 2.7 for now.
+Python 2.7  —  tested on version *2.7.5*
+
+-----
+
+### Usage
+
+The program accepts one or more input file paths, and will display the results to the console; optionally, you can provide an output file path.
 
 ```
 usage: intel.py [-h] -i INPUT FILE [INPUT FILE ...] [-o OUTPUT FILE] [-e] [-v]
