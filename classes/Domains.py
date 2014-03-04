@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-"""Identify and extract valid domains from raw data."""
+"""Identify and extract valid domains from input data."""
 
 
 import urllib2  # Make HTTP Requests.
