@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
-"""Extract and Categorize IP Addresses From Raw Data."""
+"""Extract and Classify IP Addresses."""
 
 import re  # Use Regular Expressions.
 
 
 class ExtractIPs(object):
 
-    """Extract and Categorize IP Addresses From Raw Data."""
+    """Extract and Classify IP Addresses From Input Data."""
 
     def __init__(self, input_data):
         """Instantiate the Class."""
