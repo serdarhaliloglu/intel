@@ -22,10 +22,11 @@ def extract_indicators(input_data):
 
     results = []  # List to house all of the results.
 
-    hashes = ExtractHashes(input_data).get_valid_hashes()
-    ips = ExtractIPs(input_data).get_valid_ips()
-    domains = ExtractDomains(input_data).get_valid_domains()
+    hashes = ExtractHashes(input_data).get_valid_hashes()  # Returns a dictionary.
+    ips = ExtractIPs(input_data).get_valid_ips()  # Returns a dictionary.
+    domains = ExtractDomains(input_data).get_valid_domains()  # Returns a dictionary.
 
+    # For all of the below, we'll check to make sure that there's something in the list.
     if hashes['md5_hashes']:
 
         results.extend(hashes['md5_hashes'])
@@ -48,7 +49,7 @@ def extract_indicators(input_data):
 def main():
     """Where the Automagic Happens."""
 
-    args = GetArguments().valid_arguments()
+    args = GetArguments().valid_arguments()  # Grab the arguments.
 
     input_data = []  # List to store all input data to be analyzed.
 
@@ -72,10 +73,11 @@ def main():
 
         for entry in results:
 
-            print entry  # Print to console regardless of output file.
+            print entry  # Always print to console.
 
             if args.output:
-                outfile.write(entry + "\n")
+                
+                outfile.write(entry + "\n")  # Write results to outpu file if provided.
 
 
 if __name__ == "__main__":
