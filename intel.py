@@ -22,11 +22,12 @@ def extract_indicators(input_data):
 
     results = []  # List to house all of the results.
 
-    hashes = ExtractHashes(input_data).get_valid_hashes()  # Returns a dictionary.
-    ips = ExtractIPs(input_data).get_valid_ips()  # Returns a dictionary.
-    domains = ExtractDomains(input_data).get_valid_domains()  # Returns a dictionary.
+    # All of these return a dictionary.
+    hashes = ExtractHashes(input_data).get_valid_hashes()
+    ips = ExtractIPs(input_data).get_valid_ips()
+    domains = ExtractDomains(input_data).get_valid_domains()
 
-    # For all of the below, we'll check to make sure that there's something in the list.
+    # Only append non-empty lists to results.
     if hashes['md5_hashes']:
 
         results.extend(hashes['md5_hashes'])
@@ -76,8 +77,9 @@ def main():
             print entry  # Always print to console.
 
             if args.output:
-                
-                outfile.write(entry + "\n")  # Write results to outpu file if provided.
+
+                # Write results to outpu file if provided.
+                outfile.write(entry + "\n")
 
 
 if __name__ == "__main__":
