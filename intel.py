@@ -3,7 +3,7 @@
 """Extract and Validate NBIs and HBIs From Multiple Intel Sources."""
 
 from classes.Arguments import GetArguments  # Get and validate arguments.
-from classes.Data import CleanData  # # Format input data to a python list.
+from classes.Data import CleanData  # Format input data to a python list.
 from classes.FileHashes import ExtractHashes  # Extract hashes from input data.
 from classes.IPAddresses import ExtractIPs  # Extract IPs from input data.
 from classes.Domains import ExtractDomains  # Extract domains from input data.
