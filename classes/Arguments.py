@@ -7,6 +7,7 @@ from classes import Errors  # Present error messages to the user.
 import argparse  # Awesome argument parser.
 import os  # A portable way of using operating system dependent functionality.
 import sys  # Interact with the interpreter.
+import urllib2  # Make HTTP Requests.
 
 
 class GetArguments(object):
@@ -18,36 +19,38 @@ class GetArguments(object):
         pass
 
     def valid_input_path(self, user_input):
-        """Validate input argument provided by the user."""
+        """Return valid URL and file paths."""
 
-        self.user_input = user_input
-
+        # If it's an existing file, append it to apprpriate list.
         if os.path.isfile(user_input):
 
-            # We'll use exception handling to prevent race conditions.
-            try:
-                with open(user_input) as infile:
-                    pass
-
-            except IOError:
-
-                # File exists but I can't access it.
-                file_access = Errors.FilePath().file_access(user_input)
-
-                raise argparse.ArgumentTypeError(file_access)  # Tell the user.
+            path_type = 'file_path'
 
         else:
 
-            invalid_input = Errors.UserInput().invalid_input(user_input)
+            try:
+                # Try to open URL and append its path to appropriate list.
+                urllib2.urlopen(user_input)
+                path_type = 'url_path'
 
-            raise argparse.ArgumentTypeError(invalid_input)
+            except urllib2.URLError:
 
-        return user_input
+                # Couldn't connect to server.
+                error_message = Errors.URL().connection_error(user_input)
+
+                raise argparse.ArgumentTypeError(error_message)
+
+            except ValueError:
+
+                # Couldn't connect to server.
+                error_message = Errors.URL().invalid_path(user_input)
+
+                raise argparse.ArgumentTypeError(error_message)
+
+        return user_input, path_type
 
     def valid_output_path(self, user_input):
         """Ensure that output file can be used by the program."""
-
-        self.user_input = user_input
 
         # Verification before attempting to override an existing file.
         if os.path.isfile(user_input):
