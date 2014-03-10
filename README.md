@@ -23,13 +23,13 @@ Python 2.7  —  tested on version *2.7.5*
 The program accepts one or more input file paths, and will display the results to the console; optionally, you can provide an output file path.
 
 ```
-usage: intel.py [-h] -i INPUT FILE [INPUT FILE ...] [-o OUTPUT FILE] [-e] [-v]
+usage: intel.py [-h] -i INPUT PATH [INPUT PATH ...] [-o OUTPUT FILE] [-e] [-v]
 
 Used for Extracting and Vetting Intel.
 
 optional arguments:
   -h, --help                                                           show this help message and exit
-  -i INPUT FILE [INPUT FILE ...], --input INPUT FILE [INPUT FILE ...]  one or more input file paths.
+  -i INPUT PATH [INPUT PATH ...], --input INPUT PATH [INPUT PATH ...]  one or more paths to input file or URL.
   -o OUTPUT FILE, --output OUTPUT FILE                                 optional path to output file.
   -e, --extract                                                        extract intel from input data.
   -v, --vet                                                            vet intel from input data.
