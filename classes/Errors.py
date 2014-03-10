@@ -52,18 +52,18 @@ class URL(object):
         """Instantiate the Class."""
         pass
 
-    def missing_schema(self, url_path):
-        """URL is missing schema."""
+    def invalid_path(self, url_path):
+        """ValueError, invalid path provided."""
 
         error_message = (
             """
             \n
-            Missing Schema!
+            This is not a valid path: %s
             If you intended to provide a URL, please ensure that
             it is fully qualified.
             e.g. http://%s
             """
-        ) % url_path
+        ) % (url_path, url_path)
 
         return error_message
 
