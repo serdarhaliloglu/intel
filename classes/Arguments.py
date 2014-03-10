@@ -107,8 +107,8 @@ class GetArguments(object):
 
         parser.add_argument(
             "-i", "--input", type=self.valid_input_path, required=True,
-            metavar='INPUT FILE', nargs='+',
-            help=("one or more input file paths.")
+            metavar='INPUT PATH', nargs='+',
+            help=("one or more paths to input file or URL.")
         )
 
         parser.add_argument(
