@@ -37,9 +37,14 @@ optional arguments:
 
 ----
 
+### Recently Added
+* Ability to provide a URL as an input path
+
+
+----
+
 ### Coming Soon
 
-* Ability to provide a URL as an input path
 * Ability to provide PDF file as an input path
 * Identification and extraction of file names
 * Identification and extraction of Registry Paths/Keys
@@ -60,6 +65,12 @@ optional arguments:
 ### Examples
 
 * [This article](http://normanshark.com/blog/plugx-used-mongolian-targets/) has good info about PlugX (Chinese backdoor trojan), and how it was used against Mongolia. The blog post can be copied and pasted to a text file, and presented to the program as input like this:
+
+ ```
+python intel.py -e -i "http://normanshark.com/blog/plugx-used-mongolian-targets/"
+ ```
+ 
+ OR
 
  ```
 python intel.py -e -i "/Users/Johnny/Test/plugx_intel.txt"
