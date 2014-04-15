@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-"""Parse IOC Files. Return a Dictionary With It's Properties."""
+"""Parse OpenIOC Files. Return a Dictionary With It's Properties."""
 
 import sys  # Interact with the interpreter.
 
@@ -11,7 +11,7 @@ try:
 except ImportError:
     sys.exit(
         """\n
-        You're Missing the LXML Module. Download it from here:
+        You're Missing the LXML Module. Go here:
         http://lxml.de/installation.html\n
         """
     )
