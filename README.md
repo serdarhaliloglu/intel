@@ -15,6 +15,7 @@ This project is still under development, so currently only the functionality for
 ### Requirements
 
 Python 2.7  —  tested on version *2.7.5*
+lxml (library for processing XML and HTML)  —  http://lxml.de/
 
 -----
 
