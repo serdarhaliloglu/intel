@@ -6,6 +6,7 @@ import sys  # Interact with the interpreter.
 
 # Library for processing XML and HTML.
 try:
+    import lxml
     from lxml import etree
 
 except ImportError:
@@ -21,24 +22,42 @@ class IOC(object):
 
     """Parse IOC Files. Return a Dictionary With It's Properties."""
 
-    def __init__(self, ioc_path):
+    def __init__(self, ioc_path, schema_path):
         """Instantiate the Class."""
 
         self.ioc_path = ioc_path
+        self.schema_path = schema_path
 
     def valid_ioc(self):
         """Return if IOC is Valid."""
 
-        # Clean up redundant namespace declarations.
-        parser = etree.XMLParser(ns_clean=True)
+        ioc_path = self.ioc_path
+        schema_path = self.schema_path
+
+        # Validate XML file with an XSD file.
+        parser = etree.XMLParser(dtd_validation=True)
 
         try:
-            tree = etree.parse(self.ioc_path, parser)  # Parse XML.
+            with open(schema_path) as schema_file:
+                schema_data = etree.parse(schema_file)
 
-            root = tree.getroot()  # Get the entire document (root).
+            schema = etree.XMLSchema(schema_data)
 
         except:
-            sys.exit("Could Not Parse IOC File: %s" % self.ioc_path)
+            sys.exit("Could Not Parse XSD File: %s" % schema_path)
+
+        try:
+            with open(ioc_path) as ioc_file:
+                ioc_data = etree.parse(ioc_file)
+
+        except:
+            sys.exit("Could Not Parse IOC File: %s" % ioc_path)
+
+        if schema.validate(ioc_data):
+
+            tree = etree.parse(ioc_path)  # Parse XML.
+
+            root = tree.getroot()  # Get the entire document (root).
 
         return root
 
