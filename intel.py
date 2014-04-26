@@ -12,7 +12,7 @@ from classes.Domains import ExtractDomains  # Extract domains from input data.
 __program__ = "intel.py"
 __author__ = "Johnny C. Wachter"
 __license__ = "MIT"
-__version__ = "1.0"
+__version__ = "0.0.1"
 __maintainer__ = "Johnny C. Wachter"
 __contact__ = "wachter.johnny@gmail.com"
 __status__ = "Development"
@@ -72,7 +72,7 @@ def main():
             # Append input data to the list.
             input_data.extend(Data.CleanData(data).to_list())
 
-    input_data = list(set(input_data))  # Cleaned up and deduped.
+    input_data = list(set(input_data))  # Remove duplicates.
 
     if args.output:
 
@@ -91,7 +91,7 @@ def main():
 
             if args.output:
 
-                # Write results to outpu file if provided.
+                # Write results to output file if provided.
                 outfile.write(entry + "\n")
 
 
