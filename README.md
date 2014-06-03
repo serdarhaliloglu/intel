@@ -45,7 +45,7 @@ optional arguments:
 
 ----
 
-### Coming Soon
+### To Do
 
 * Ability to provide PDF file as an input path
 * Identification and extraction of file names
