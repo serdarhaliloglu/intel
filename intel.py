@@ -11,6 +11,7 @@ from classes.Domains import ExtractDomains  # Extract domains from input data.
 
 __program__ = "intel.py"
 __author__ = "Johnny C. Wachter"
+__copyright__ = "Copyright (C) 2014 Johnny C. Wachter"
 __license__ = "MIT"
 __version__ = "0.0.1"
 __maintainer__ = "Johnny C. Wachter"

@@ -7,6 +7,16 @@ import urllib2  # Make HTTP Requests.
 import re  # Use Regular Expressions.
 
 
+__program__ = "Domains.py"
+__author__ = "Johnny C. Wachter"
+__copyright__ = "Copyright (C) 2014 Johnny C. Wachter"
+__license__ = "MIT"
+__version__ = "0.0.1"
+__maintainer__ = "Johnny C. Wachter"
+__contact__ = "wachter.johnny@gmail.com"
+__status__ = "Development"
+
+
 class ExtractDomains(object):
 
     """Identify valid domains."""

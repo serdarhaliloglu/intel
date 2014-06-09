@@ -18,6 +18,16 @@ except ImportError:
     )
 
 
+__program__ = "IOC.py"
+__author__ = "Johnny C. Wachter"
+__copyright__ = "Copyright (C) 2014 Johnny C. Wachter"
+__license__ = "MIT"
+__version__ = "0.0.1"
+__maintainer__ = "Johnny C. Wachter"
+__contact__ = "wachter.johnny@gmail.com"
+__status__ = "Development"
+
+
 class IOC(object):
 
     """Parse IOC Files. Return a Dictionary With It's Properties."""
