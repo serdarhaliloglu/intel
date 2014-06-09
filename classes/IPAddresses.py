@@ -22,89 +22,109 @@ class ExtractIPs(object):
     def __init__(self, input_data):
         """Instantiate the Class."""
 
-        # Because we access attributes of an object by reference.
         self.input_data = input_data
-
-    def get_valid_ips(self):
-        """Extract IP Addresses"""
-
-        data = self.input_data
-
-        ip_like_group = []  # Store IP-Address Look-alikes.
-
-        # Dictionary that will store above lists as keys.
-        ip_results = {
-            'valid_ips': [],  # Stroe all valid IP Addresses.
+        
+        self.ipv4_results = {
+            'valid_ips': [],  # Store all valid IP Addresses.
             'invalid_ips': [],  # Store all invalid IP Addresses.
             'private_ips': [],  # Store all Private IP Addresses.
             'public_ips': []  # Store all Public IP Addresses.
         }
 
-        ip_like_pattern = re.finditer(
+    def extract_ipv4_like(self):
+        """Extract IP-like strings from input data.
+        :rtype : list
+        """
+        
+        ipv4_like_list = []
 
-            r"""  # Use Raw Mode
+        ip_like_pattern = re.compile(r'([0-9]{1,3}\.){3}([0-9]{1,3})')
 
-            # Very loose "ip-like" pattern
-            (\b[0-9]{1,3}[.][0-9]{1,3}[.][0-9]{1,3}[.][0-9]{1,3}\b)
+        for entry in self.input_data:
+            
+            if re.match(ip_like_pattern, entry):
 
-            # VERBOSE for a clean look of this RegEx.
-            """, str(data), re.VERBOSE
-        )
+                if len(entry.split('.')) == 4:
+                    
+                    ipv4_like_list.append(entry)
+        
+        return ipv4_like_list
 
-        # List which houses all of the matches for 'ip_like_pattern'
-        ip_like_group = [match.group(1) for match in ip_like_pattern]
+    def validate_ipv4_like(self):
+        """Validate that IP-like entries fall within the appropriate range."""
+        
+        if self.extract_ipv4_like():
 
-        # We're gonna want to ignore the below two addresses.
-        broadcast_address = '255.255.255.255'
-        non_routable = '0.0.0.0'
+            # We're gonna want to ignore the below two addresses.
+            ignore_list = ['0.0.0.0', '255.255.255.255']
 
-        # Separate the Valid from Invalid IP Addresses.
-        for ip_like in ip_like_group:
+            # Separate the Valid from Invalid IP Addresses.
+            for ipv4_like in self.extract_ipv4_like():
+    
+                # Split the 'IP' into parts so each part can be validated.
+                parts = ipv4_like.split('.')
+    
+                # All part values should be between 0 and 255.
+                if all(0 <= int(part) < 256 for part in parts):
 
-            # Split the 'IP' into parts so each part can be validated.
-            parts = ip_like.split('.')
+                    if not ipv4_like in ignore_list:
 
-            # All part values should be between 0 and 255.
-            if (all(0 <= int(part) < 256 for part in parts)):
-                if not (
-                    ip_like == broadcast_address or
-                    ip_like == non_routable
-                ):
-                    ip_results['valid_ips'].append(ip_like)
+                        self.ipv4_results['valid_ips'].append(ipv4_like)
+    
+                else:
 
-            else:
-                ip_results['invalid_ips'].append(ip_like)
+                    self.ipv4_results['invalid_ips'].append(ipv4_like)
+        
+        else:
+            pass
+        
+    def classify_ipv4_addresses(self):
+        """Classify Valid IP Addresses."""
+        
+        if self.ipv4_results['valid_ips']:
 
-        # Now we will classify the Valid IP Addresses.
-        for valid_ip in ip_results['valid_ips']:
+            # Now we will classify the Valid IP Addresses.
+            for valid_ip in self.ipv4_results['valid_ips']:
 
-            private_ip_pattern = re.findall(
+                private_ip_pattern = re.findall(
+    
+                    r"""^10\.(\d{1,3}\.){2}\d{1,3}
+            
+                    (^127\.0\.0\.1)|  # Loopback
+            
+                    (^10\.(\d{1,3}\.){2}\d{1,3})|  # 10/8 Range
+            
+                    # Matching the 172.16/12 Range takes several matches
+                    (^172\.1[6-9]\.\d{1,3}\.\d{1,3})|
+                    (^172\.2[0-9]\.\d{1,3}\.\d{1,3})|
+                    (^172\.3[0-1]\.\d{1,3}\.\d{1,3})|
+            
+                    (^192\.168\.\d{1,3}\.\d{1,3})|  # 192.168/16 Range
+            
+                    # Match APIPA Range.
+                    (^169\.254\.\d{1,3}\.\d{1,3})
+            
+                    # VERBOSE for a clean look of this RegEx.
+                    """, valid_ip, re.VERBOSE
+                )
 
-                r"""  # Use Raw Mode
-
-                (^127\.0\.0\.1)|  # Loopback
-
-                (^10\.\d{1,3}\.\d{1,3}\.\d{1,3})|  # 10/8 Range
-
-                # Matching the 172.16/12 Range takes several matches
-                (^172\.1[6-9]\.\d{1,3}\.\d{1,3})|
-                (^172\.2[0-9]\.\d{1,3}\.\d{1,3})|
-                (^172\.3[0-1]\.\d{1,3}\.\d{1,3})|
-
-                (^192\.168\.\d{1,3}\.\d{1,3})|  # 192.168/16 Range
-
-                # Match APIPA Range.
-                (^169\.254\.\d{1,3}\.\d{1,3})
-
-                # VERBOSE for a clean look of this RegEx.
-                """, valid_ip, re.VERBOSE
-            )
-
-            if private_ip_pattern:
-
-                ip_results['private_ips'].append(valid_ip)
-
-            else:
-                ip_results['public_ips'].append(valid_ip)
-
-        return ip_results  # Self explanatory.
+                if private_ip_pattern:
+    
+                    self.ipv4_results['private_ips'].append(valid_ip)
+    
+                else:
+                    self.ipv4_results['public_ips'].append(valid_ip)
+                    
+        else:
+            pass
+        
+    def get_ipv4_results(self):
+        """Extract and classify all valid and invalid IP-like strings.
+        :returns : dict
+        """
+        
+        self.extract_ipv4_like()
+        self.validate_ipv4_like()
+        self.classify_ipv4_addresses()
+        
+        return self.ipv4_results

@@ -26,7 +26,7 @@ def extract_indicators(input_data):
 
     # All of these return a dictionary.
     hashes = ExtractHashes(input_data).get_valid_hashes()
-    ips = ExtractIPs(input_data).get_valid_ips()
+    ips = ExtractIPs(input_data).get_ipv4_results()
     domains = ExtractDomains(input_data).get_valid_domains()
 
     # Only append non-empty lists to results.
