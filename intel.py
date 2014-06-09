@@ -51,7 +51,7 @@ def extract_indicators(input_data):
 def main():
     """Where the Automagic Happens."""
 
-    args = GetArguments().valid_arguments()  # Grab the arguments.
+    args = GetArguments().valid_arguments  # Grab the arguments.
 
     input_data = []  # List to store all input data to be analyzed.
 

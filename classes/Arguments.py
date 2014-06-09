@@ -18,10 +18,15 @@ class GetArguments(object):
         """Instantiate the Class."""
         pass
 
-    def valid_input_path(self, user_input):
-        """Return valid URL and file paths."""
+    @staticmethod
+    def valid_input_path(user_input):
+        """Return Valid URL and File Paths.
+        :param user_input: existing fully qualified file path
+        :returns: valid path and type (file path / url path)
+        :rtype: tuple
+        """
 
-        # If it's an existing file, append it to apprpriate list.
+        # If it's an existing file, append it to appropriate list.
         if os.path.isfile(user_input):
 
             path_type = 'file_path'
@@ -49,8 +54,13 @@ class GetArguments(object):
 
         return user_input, path_type
 
-    def valid_output_path(self, user_input):
-        """Ensure that output file can be used by the program."""
+    @staticmethod
+    def valid_output_path(user_input):
+        """Ensure that output file can be used by the program.
+        :param user_input: fully qualified path of an output file
+        :returns: valid file path after confirmation that save location is okay
+        :rtype: str
+        """
 
         # Verification before attempting to override an existing file.
         if os.path.isfile(user_input):
@@ -64,8 +74,16 @@ class GetArguments(object):
 
             if confirmation == "y":
 
-                with open(user_input, 'a') as outfile:
-                    pass
+                try:
+                    outfile = open(user_input, 'a')
+                    outfile.close()
+                
+                except IOError:
+                    
+                    # File could not be accessed
+                    error_message = Errors.FilePath().file_access(user_input)
+                    
+                    raise argparse.ArgumentTypeError(error_message)
 
             elif confirmation == "n":
 
@@ -74,27 +92,31 @@ class GetArguments(object):
             else:
 
                 # User selected a non-existent option.
-                invalid_input = UserSelection().invalid_input(user_input)
+                invalid_input = Errors.UserInput().invalid_input(user_input)
 
                 raise argparse.ArgumentTypeError(invalid_input)
 
         else:
 
             try:
-                with open(user_input, 'a') as outfile:
-                    pass
+                outfile = open(user_input, 'a')
+                outfile.close()
 
             except IOError:
 
                 # File couldn't be created.
-                file_create = Errors.FilePath().file_create(user_input)
+                error_message = Errors.FilePath().file_create(user_input)
 
-                raise argparse.ArgumentTypeError(file_create)
+                raise argparse.ArgumentTypeError(error_message)
 
         return user_input
 
+    @property
     def valid_arguments(self):
-        """Obtain valid arguments from the user."""
+        """Obtain valid arguments from the user.
+        :returns : Validated arguments provided by the user
+        :rtype : class 'argparse.Namespace'
+        """
 
         # For Argparse, see: http://docs.python.org/dev/library/argparse.html
         parser = argparse.ArgumentParser(
@@ -108,12 +130,12 @@ class GetArguments(object):
         parser.add_argument(
             "-i", "--input", type=self.valid_input_path, required=True,
             metavar='INPUT PATH', nargs='+',
-            help=("one or more paths to input file or URL.")
+            help="one or more paths to input file or URL."
         )
 
         parser.add_argument(
             "-o", "--output", type=self.valid_output_path, required=False,
-            metavar='OUTPUT FILE', help=("optional path to output file.")
+            metavar='OUTPUT FILE', help="optional path to output file."
         )
 
         parser.add_argument(

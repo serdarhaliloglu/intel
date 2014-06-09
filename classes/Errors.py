@@ -11,7 +11,8 @@ class FilePath(object):
         """Instantiate the Class."""
         pass
 
-    def file_access(self, file_path):
+    @staticmethod
+    def file_access(file_path):
         """Don't have required permissions."""
 
         error_message = (
@@ -27,7 +28,8 @@ class FilePath(object):
 
         return error_message
 
-    def file_create(self, file_path):
+    @staticmethod
+    def file_create(file_path):
         """Couldn't create the file."""
 
         error_message = (
@@ -52,7 +54,8 @@ class URL(object):
         """Instantiate the Class."""
         pass
 
-    def invalid_path(self, url_path):
+    @staticmethod
+    def invalid_path(url_path):
         """ValueError, invalid path provided."""
 
         error_message = (
@@ -67,7 +70,8 @@ class URL(object):
 
         return error_message
 
-    def connection_error(self, url_path):
+    @staticmethod
+    def connection_error(url_path):
         """Could not connect to server."""
 
         error_message = (
@@ -89,7 +93,8 @@ class UserInput(object):
         """Instantiate the Class."""
         pass
 
-    def invalid_input(self, user_selection):
+    @staticmethod
+    def invalid_input(user_selection):
         """User provided invalid input."""
 
         error_message = (
