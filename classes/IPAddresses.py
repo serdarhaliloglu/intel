@@ -88,7 +88,7 @@ class ExtractIPs(object):
 
                 private_ip_pattern = re.findall(
     
-                    r"""^10\.(\d{1,3}\.){2}\d{1,3}
+                    r"""
             
                     (^127\.0\.0\.1)|  # Loopback
             
