@@ -66,7 +66,7 @@ optional arguments:
 
 ### Examples
 
-* [This article](http://www.bluecoat.com/security-blog/2013-11-25/plugx-used-against-mongolian-targets) has good info about PlugX (Chinese backdoor trojan), and how it was used against Mongolia. The blog post can be copied and pasted to a text file, and presented to the program as input like this:
+* [This article](http://www.bluecoat.com/security-blog/2013-11-25/plugx-used-against-mongolian-targets) has good info about PlugX (Chinese backdoor trojan), and how it was used against Mongolia. The blog post can be copied and pasted to a text file, or you can just give the program its URL:
 
  ```
 python intel.py -e -i "http://www.bluecoat.com/security-blog/2013-11-25/plugx-used-against-mongolian-targets"
