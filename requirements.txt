@@ -1,0 +1,3 @@
+html5lib==0.9999999
+lxml==3.4.4
+requests==2.8.1
