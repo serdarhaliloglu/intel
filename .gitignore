@@ -1,4 +1,7 @@
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode
 # Directory-based project format
 .idea/
+
+# Covers Virtualenv directories for this project.
+/py2710_intel
 /py35_intel
