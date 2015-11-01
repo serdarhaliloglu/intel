@@ -26,7 +26,7 @@ except ImportError(requests):
         """
         You're missing the requests module.  Please acquire it here:
         http://docs.python-requests.org/en/latest/user/install/
-    """)
+        """)
 
 __program__ = "Data.py"
 __author__ = "Johnny C. Wachter"
@@ -110,6 +110,7 @@ class CleanData(object):
 
         data_list = read_data.split()
         clean_list = []  # List to store the cleaned up input.
+
         for entry in data_list:
 
             clean_entry = entry.strip(' .,<>?/[]\\{}"\'|`~!@#$%^&*()_+-=')

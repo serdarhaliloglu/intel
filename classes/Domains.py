@@ -3,8 +3,8 @@
 """Identify and extract valid domains from input data."""
 
 
-import urllib2  # Make HTTP Requests.
 import re  # Use Regular Expressions.
+import requests  # Make HTTP Requests.
 
 
 __program__ = "Domains.py"
@@ -27,15 +27,16 @@ class ExtractDomains(object):
         # Because we access attributes of an object by reference.
         self.input_data = input_data
 
-    def get_public_suffix_list(self):
+    @staticmethod
+    def get_public_suffix_list():
         """Reach out to the Public Suffix List and grab the TLDs."""
 
         url = ("http://mxr.mozilla.org/mozilla-"
                "central/source/netwerk/dns/effective_tld_names.dat?raw=1"
                )
 
-        public_suffix_list = unicode(urllib2.urlopen(url).read(), 'utf-8')
-
+        get_public_suffix_list = requests.get(url)
+        public_suffix_list = get_public_suffix_list.text
         tld_pattern = re.finditer(
 
             r"""
