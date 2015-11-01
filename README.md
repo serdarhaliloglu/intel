@@ -9,14 +9,16 @@ This project is still under development, so currently only the functionality for
 * SHA-256 Hashes
 * IP Addresses
 * Domain Names
+* Email Addresses
 
 -----
 
 ### Requirements
 
-* Python 2.7  —  tested on version *2.7.5*
+* Python 2.7.10
 
 * lxml (library for processing XML and HTML)  —  http://lxml.de/
+* requests (HTTP for Humans)  -  http://docs.python-requests.org/en/latest/user/install/
 
 -----
 
@@ -40,7 +42,7 @@ optional arguments:
 ----
 
 ### Recently Added
-* Ability to provide a URL as an input path
+* Ability to extract email addresses
 
 
 ----
@@ -103,5 +105,6 @@ peaceful003.linkpc.net
 peaceful.linkpc.net
 mongolia.regionfocus.com
 usa.regionfocus.com
+bluce_nan@yahoo.com
  ```
  * We can see that there are a few legitimate domains that need to be excluded (e.g. yahoo.com), but removing those is much simpler than having to copy/paste each of the indicators from the blog.
