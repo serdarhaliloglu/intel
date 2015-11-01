@@ -1,31 +1,89 @@
 #!/usr/bin/env python
 
-"""Format the Input Data."""
+"""Get and Format the Input Data."""
 
 import os  # A portable way of using operating system dependent functionality.
-import re  # For Regular Expressions.
-import StringIO  # Write strings to buffer.
 import sys  # Interact with the interpreter.
+from HTMLParser import HTMLParser  # Parse text files formatted in HTML and XHTML.
 
 try:
     import lxml
     from lxml.html.clean import Cleaner
+    from lxml import etree
 
-except ImportError:
+except ImportError(lxml):
     sys.exit(
         """
-        You're missing the lxml module.  Please download it here:
+        You're missing the lxml module.  Please acquire it here:
         http://lxml.de/installation.html
         """)
 
+try:
+    import requests
+
+except ImportError(requests):
+    sys.exit(
+        """
+        You're missing the requests module.  Please acquire it here:
+        http://docs.python-requests.org/en/latest/user/install/
+    """)
+
 __program__ = "Data.py"
 __author__ = "Johnny C. Wachter"
-__copyright__ = "Copyright (C) 2014 Johnny C. Wachter"
+__copyright__ = "Copyright (C) 2012 Johnny C. Wachter"
 __license__ = "MIT"
-__version__ = "0.0.1"
+__version__ = "1.0"
 __maintainer__ = "Johnny C. Wachter"
 __contact__ = "wachter.johnny@gmail.com"
 __status__ = "Development"
+
+
+class TagStripper(HTMLParser):
+    """Used to strip tags from HTML."""
+
+    def __init__(self):
+        """Instantiate the Class."""
+
+        self.reset()  # Reset the instance.  Loses all unprocessed data.
+        self.html_data_list = []  # List to house the HTML text data read from tags.
+
+    def handle_data(self, data_entry):
+        """Override this method in HTMLParser."""
+        self.html_data_list.append(data_entry)  # Add html data entry to the aforementioned list.
+
+    def get_html_data(self):
+        return ''.join(self.html_data_list)
+
+
+class GetData(object):
+    """Get and Classify the Input Data."""
+
+    def __init__(self, data_path):
+        """Instantiate the Class."""
+
+        self.data_path = data_path
+
+    def get_url(self):
+        """Get the relevant part of a web page."""
+
+        get_url = requests.get(self.data_path)
+        page_data = get_url.content
+
+        cleaner = Cleaner()
+        cleaner.javascript = True  # Remove JavaScript code from HTML.
+        cleaner.scripts = True  # Remove other code from HTML.
+        cleaner.style = True  # Remove CSS and styles from HTML.
+        cleaner.links = True  # Remove Links from HTML.
+        cleaner.kill_tags = ['a', 'img']  # Remove these tags.
+
+        # Store the cleaned up HTML.
+        page_html = cleaner.clean_html(page_data)
+
+        # Strip tags from final results.
+        strip_tags = TagStripper()  # Instantiate the HTML Tag Stripper.
+        strip_tags.feed(page_html)  # Strip all HTML tags.
+
+        return strip_tags.get_html_data()
 
 
 class CleanData(object):
@@ -50,22 +108,8 @@ class CleanData(object):
 
             read_data = self.input_data
 
-        # Define delimiters for the final list.
-        data = re.compile(
-            r"""
-
-            [`~!\#\$%\^&\*\(\)_=\+]|
-
-            [\t\r\n;:\'\",<>/\?]|
-
-            [ \\]
-
-            """, re.VERBOSE)
-
-        data_list = data.split(read_data)  # Create the list.
-
+        data_list = read_data.split()
         clean_list = []  # List to store the cleaned up input.
-
         for entry in data_list:
 
             clean_entry = entry.strip(' .,<>?/[]\\{}"\'|`~!@#$%^&*()_+-=')
@@ -75,37 +119,3 @@ class CleanData(object):
         clean_unique_list = list(set(clean_list))  # Remove duplicates in list.
 
         return clean_unique_list
-
-
-class GetData(object):
-
-    """Get and Classify the Input Data."""
-
-    def __init__(self, data_path):
-        """Instantiate the Class."""
-
-        self.data_path = data_path
-
-    def get_url(self):
-        """Get the relevant part of a web page."""
-
-        # Create file-like object.
-        outfile = StringIO.StringIO()
-
-        cleaner = Cleaner()
-        cleaner.javascript = True  # Remove JavaScript code from HTML.
-        cleaner.scripts = True  # Remove other code from HTML.
-        cleaner.style = True  # Remove CSS and styles from HTML.
-        cleaner.links = True  # Remove Links from HTML.
-        cleaner.kill_tags = ['a', 'img', 'li']  # Remove these tags.
-
-        # Store the cleaned up HTML.
-        page_html = lxml.html.tostring(
-            cleaner.clean_html(
-                lxml.html.parse(self.data_path)
-            )
-        )
-
-        outfile.write(page_html)  # Write the results to this file in memory.
-
-        return outfile

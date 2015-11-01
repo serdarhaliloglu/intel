@@ -8,6 +8,7 @@ from classes import Data  # Format input data to a python list.
 from classes.FileHashes import ExtractHashes  # Extract hashes from input data.
 from classes.IPAddresses import ExtractIPs  # Extract IPs from input data.
 from classes.Domains import ExtractDomains  # Extract domains from input data.
+from classes.Emails import EmailAddresses  #  Extract email addresses from input data.
 
 __program__ = "intel.py"
 __author__ = "Johnny C. Wachter"
@@ -28,6 +29,7 @@ def extract_indicators(input_data):
     hashes = ExtractHashes(input_data).get_valid_hashes()
     ips = ExtractIPs(input_data).get_ipv4_results()
     domains = ExtractDomains(input_data).get_valid_domains()
+    emails = EmailAddresses(input_data).extract_email_addresses()
 
     # Only append non-empty lists to results.
     if hashes['md5_hashes']:
@@ -45,6 +47,9 @@ def extract_indicators(input_data):
     if domains['domain_list']:
 
         results.extend(domains['domain_list'])
+
+    if emails:
+        results.extend(emails)
 
     return results
 
@@ -67,8 +72,8 @@ def main():
 
         elif path_type == 'url_path':
 
-            # Grab the HTML from the page. Read StringIO instance.
-            data = Data.GetData(input_path).get_url().getvalue()
+            # Grab the HTML from the page.
+            data = Data.GetData(input_path).get_url()
 
             # Append input data to the list.
             input_data.extend(Data.CleanData(data).to_list())
