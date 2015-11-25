@@ -15,10 +15,8 @@ This project is still under development, so currently only the functionality for
 
 ### Requirements
 
-* Python 2.7.10
-
-* lxml (library for processing XML and HTML)  —  http://lxml.de/
-* requests (HTTP for Humans)  -  http://docs.python-requests.org/en/latest/user/install/
+Python 2.7.10
+See requirements.txt file.
 
 -----
 
