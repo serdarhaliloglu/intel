@@ -38,7 +38,8 @@ class ExtractIPs(object):
         
         ipv4_like_list = []
 
-        ip_like_pattern = re.compile(r'([0-9]{1,3}\.){3}([0-9]{1,3})')
+        # ip_like_pattern = re.compile(r'([0-9]{1,3}\.){3}([0-9]{1,3})') // Original Regex
+        ip_like_pattern = re.compile("^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$") # We changed the code like this for our project
 
         for entry in self.input_data:
             
